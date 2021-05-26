@@ -4,7 +4,6 @@
 //
 
 using System;
-using MonoBehaviours;
 using UnityEngine;
 
 namespace Classes
@@ -66,7 +65,11 @@ namespace Classes
                             throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);
                     }
                     break;
-            
+
+                case BlockType.Lava:
+                    tileX = 2;
+                    tileY = 3;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

@@ -10,7 +10,8 @@ public enum BlockType
     Bedrock,
     Stone,
     Dirt,
-    GrassBlock
+    GrassBlock,
+    Lava
 }
 
 namespace Classes
