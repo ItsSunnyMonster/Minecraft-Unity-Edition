@@ -4,8 +4,8 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Classes;
 using UnityEngine;
 
@@ -30,39 +30,58 @@ namespace MonoBehaviours
         private List<int> _triangles = new List<int>();
         private List<Vector2> _uvs = new List<Vector2>();
 
+        private Vector3 _position;
+
+        private Action _chunkGenerationCallback;
+
         private void Start()
         {
-            StartCoroutine(nameof(SpawnBlocksRoutine));
+            // Set position so it can be accessed from other threads
+            _position = transform.position;
+            
+            // Start new thread to generate chunk
+            new Thread(() => ChunkGenerationThread(UpdateMesh)).Start();
         }
 
-        private IEnumerator SpawnBlocksRoutine()
+        private void Update()
+        {
+            // If it is not null, then invoke
+            _chunkGenerationCallback?.Invoke();
+            
+            // Set it back to null
+            _chunkGenerationCallback = null;
+        }
+
+        /// <summary>a
+        /// The thread function to generate chunk data
+        /// </summary>
+        /// <param name="callback"><paramref name="callback"/> gets called after data generation is done</param>
+        private void ChunkGenerationThread(Action callback)
+        {
+            GenerateBlockData();
+            GenerateMeshData();
+            _chunkGenerationCallback = callback;
+        }
+
+        /// <summary>
+        /// Generates block data
+        /// </summary>
+        private void GenerateBlockData()
         {
             // Spawn blocks
             for (var x = 0; x < 16; x++)
             for (var z = 0; z < 16; z++)
             for (var y = 0;
-                y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(
-                    new Vector2(x + transform.position.x, z + transform.position.z),
-                    ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D));
-                y++)
+                y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D)); y++)
                 if (y == 0)
                     SpawnBlock(new Vector3(x, y, z), BlockType.Bedrock);
-                else if (Noise.Get3DNoiseValue(new Vector3(x, y, z) + transform.position,
-                    ChunkGenerator.Instance.noiseScaleMultiplier3D) >= ChunkGenerator.Instance.noise3DThreshold)
+                else if (Noise.Get3DNoiseValue(new Vector3(x, y, z) + _position, ChunkGenerator.Instance.noiseScaleMultiplier3D) >= ChunkGenerator.Instance.noise3DThreshold)
                     if (y > 0 && y < 62)
                         SpawnBlock(new Vector3(x, y, z), BlockType.Stone);
-                    else if (y >= 62 && y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(
-                        new Vector2(x + transform.position.x, z + transform.position.z),
-                        ChunkGenerator.Instance.noiseScaleMultiplier2D,
-                        ChunkGenerator.Instance.noiseAmplifier2D)) - 1)
+                    else if (y >= 62 && y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D)) - 1)
                         SpawnBlock(new Vector3(x, y, z), BlockType.Dirt);
                     else
                         SpawnBlock(new Vector3(x, y, z), BlockType.GrassBlock);
-
-            // Generate mesh
-            GenerateMesh();
-
-            yield return null;
         }
 
         /// <summary>
@@ -77,9 +96,9 @@ namespace MonoBehaviours
         }
 
         /// <summary>
-        /// Generates chunk mesh
+        /// Generates chunk mesh data
         /// </summary>
-        private void GenerateMesh()
+        private void GenerateMeshData()
         {
             // Loop through the blocks
             foreach (var block in BlocksInChunk)
@@ -97,9 +116,6 @@ namespace MonoBehaviours
 
                 if (!BlocksInChunk.ContainsKey(block.Key + new Vector3(0f, 0f, -1f))) AddBlockFace(block.Key, block.Value.type, BlockFaceOrientation.Right);
             }
-
-            // Update the mesh
-            UpdateMesh();
         }
 
         /// <summary>

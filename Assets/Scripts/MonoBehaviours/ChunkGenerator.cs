@@ -39,13 +39,12 @@ namespace MonoBehaviours
             }
         }
 
-        private IEnumerator Start()
+        private void Start()
         {
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    yield return null;
                     GenerateChunk(new Vector3(x, 0, y));
                 }
             }
