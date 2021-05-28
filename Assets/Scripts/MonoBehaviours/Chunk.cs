@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Classes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum BlockFaceOrientation
 {
@@ -33,6 +34,8 @@ namespace MonoBehaviours
         private Vector3 _position;
 
         private Action _chunkGenerationCallback;
+
+        private System.Random _random = new System.Random();
 
         private void Start()
         {
@@ -71,17 +74,50 @@ namespace MonoBehaviours
             // Spawn blocks
             for (var x = 0; x < 16; x++)
             for (var z = 0; z < 16; z++)
-            for (var y = 0;
-                y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D)); y++)
-                if (y == 0)
-                    SpawnBlock(new Vector3(x, y, z), BlockType.Bedrock);
-                else if (Noise.Get3DNoiseValue(new Vector3(x, y, z) + _position, ChunkGenerator.Instance.noiseScaleMultiplier3D) >= ChunkGenerator.Instance.noise3DThreshold)
-                    if (y > 0 && y < 62)
-                        SpawnBlock(new Vector3(x, y, z), BlockType.Stone);
-                    else if (y >= 62 && y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D)) - 1)
-                        SpawnBlock(new Vector3(x, y, z), BlockType.Dirt);
-                    else
-                        SpawnBlock(new Vector3(x, y, z), BlockType.GrassBlock);
+            for (var y = 0; y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D)); y++)
+                // if (y == 0)
+                //     SpawnBlock(new Vector3(x, y, z), BlockType.Bedrock);
+                // else if (Noise.Get3DNoiseValue(new Vector3(x, y, z) + _position, ChunkGenerator.Instance.noiseScaleMultiplier3D) >= ChunkGenerator.Instance.noise3DThreshold)
+                //     if (y > 0 && y < 62)
+                //         SpawnBlock(new Vector3(x, y, z), BlockType.Stone);
+                //     else if (y >= 62 && y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D)) - 1)
+                //         SpawnBlock(new Vector3(x, y, z), BlockType.Dirt);
+                //     else
+                //         SpawnBlock(new Vector3(x, y, z), BlockType.GrassBlock);
+                SpawnBlockBasedOnContext(new Vector3Int(x, y, z) + Vector3Int.RoundToInt(_position));
+        }
+
+        /// <summary>
+        /// Spawn a block based on all factors that affect world generation
+        /// </summary>
+        /// <param name="position">The block position relative to the world</param>
+        private void SpawnBlockBasedOnContext(Vector3Int position)
+        {
+            // For convenient sake
+            var cg = ChunkGenerator.Instance;
+
+            var columnHeight = 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(position.x, position.z),
+                cg.noiseScaleMultiplier2D, cg.noiseAmplifier2D));
+
+            if (position.y <= _random.Next(1, 4))
+            {
+                SpawnBlock(position - _position, BlockType.Bedrock);
+            }
+            else if (Noise.Get3DNoiseValue(position, cg.noiseScaleMultiplier3D) >= cg.noise3DThreshold)
+            {
+                if (position.y < 62 - _random.Next(1, 4))
+                {
+                    SpawnBlock(position - _position, BlockType.Stone);
+                }
+                else if (position.y < columnHeight - 1)
+                {
+                    SpawnBlock(position - _position, BlockType.Dirt);
+                }
+                else
+                {
+                    SpawnBlock(position - _position, BlockType.GrassBlock);
+                }
+            }
         }
 
         /// <summary>

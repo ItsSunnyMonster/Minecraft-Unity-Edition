@@ -333,7 +333,7 @@ MonoBehaviour:
     m_Bits: 64
   speed: 10
   groundDistance: 0.4
-  gravity: -19.62
+  gravity: -25
   jumpHeight: 1.3
 --- !u!23 &1908949447
 MeshRenderer:
