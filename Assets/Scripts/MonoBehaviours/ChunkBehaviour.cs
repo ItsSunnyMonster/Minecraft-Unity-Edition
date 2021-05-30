@@ -4,6 +4,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Classes;
@@ -23,7 +24,7 @@ public enum BlockFaceOrientation
 namespace MonoBehaviours
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshCollider))]
-    public class Chunk : MonoBehaviour
+    public class ChunkBehaviour : MonoBehaviour
     {
         public Dictionary<Vector3, Block> BlocksInChunk = new Dictionary<Vector3, Block>();
 
@@ -35,15 +36,20 @@ namespace MonoBehaviours
 
         private Action _chunkGenerationCallback;
 
-        private System.Random _random = new System.Random();
+        private readonly System.Random _random = new System.Random();
 
         private void Start()
         {
             // Set position so it can be accessed from other threads
             _position = transform.position;
+
+            // Setup and start thread
+            var thread = new Thread(ChunkGenerationThread)
+            {
+                Name = "Chunk Generation"
+            };
             
-            // Start new thread to generate chunk
-            new Thread(() => ChunkGenerationThread(UpdateMesh)).Start();
+            thread.Start();
         }
 
         private void Update()
@@ -55,15 +61,14 @@ namespace MonoBehaviours
             _chunkGenerationCallback = null;
         }
 
-        /// <summary>a
-        /// The thread function to generate chunk data
+        /// <summary>
+        /// The thread function to generate chunk data. It runs in the chunk generation thread. 
         /// </summary>
-        /// <param name="callback"><paramref name="callback"/> gets called after data generation is done</param>
-        private void ChunkGenerationThread(Action callback)
+        private void ChunkGenerationThread()
         {
             GenerateBlockData();
             GenerateMeshData();
-            _chunkGenerationCallback = callback;
+            _chunkGenerationCallback = UpdateMesh;
         }
 
         /// <summary>
@@ -74,16 +79,7 @@ namespace MonoBehaviours
             // Spawn blocks
             for (var x = 0; x < 16; x++)
             for (var z = 0; z < 16; z++)
-            for (var y = 0; y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D)); y++)
-                // if (y == 0)
-                //     SpawnBlock(new Vector3(x, y, z), BlockType.Bedrock);
-                // else if (Noise.Get3DNoiseValue(new Vector3(x, y, z) + _position, ChunkGenerator.Instance.noiseScaleMultiplier3D) >= ChunkGenerator.Instance.noise3DThreshold)
-                //     if (y > 0 && y < 62)
-                //         SpawnBlock(new Vector3(x, y, z), BlockType.Stone);
-                //     else if (y >= 62 && y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), ChunkGenerator.Instance.noiseScaleMultiplier2D, ChunkGenerator.Instance.noiseAmplifier2D)) - 1)
-                //         SpawnBlock(new Vector3(x, y, z), BlockType.Dirt);
-                //     else
-                //         SpawnBlock(new Vector3(x, y, z), BlockType.GrassBlock);
+            for (var y = 0; y < 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(x + _position.x, z + _position.z), WorldGenerator.Instance.noiseScaleMultiplier2D, WorldGenerator.Instance.noiseAmplifier2D)); y++)
                 SpawnBlockBasedOnContext(new Vector3Int(x, y, z) + Vector3Int.RoundToInt(_position));
         }
 
@@ -94,16 +90,16 @@ namespace MonoBehaviours
         private void SpawnBlockBasedOnContext(Vector3Int position)
         {
             // For convenient sake
-            var cg = ChunkGenerator.Instance;
+            var wg = WorldGenerator.Instance;
 
             var columnHeight = 62 + Mathf.RoundToInt(Noise.Get2DNoiseValue(new Vector2(position.x, position.z),
-                cg.noiseScaleMultiplier2D, cg.noiseAmplifier2D));
+                wg.noiseScaleMultiplier2D, wg.noiseAmplifier2D));
 
             if (position.y <= _random.Next(1, 4))
             {
                 SpawnBlock(position - _position, BlockType.Bedrock);
             }
-            else if (Noise.Get3DNoiseValue(position, cg.noiseScaleMultiplier3D) >= cg.noise3DThreshold)
+            else if (Noise.Get3DNoiseValue(position, wg.noiseScaleMultiplier3D) >= wg.noise3DThreshold)
             {
                 if (position.y < 62 - _random.Next(1, 4))
                 {
@@ -164,38 +160,10 @@ namespace MonoBehaviours
         private void AddFace(Vector3 topLeft, Vector3 topRight, Vector3 bottomLeft, Vector3 bottomRight)
         {
             // Add vertices
-            /*if (!_vertices.Contains(topLeft))
-        {
-            _vertices.Add(topLeft);
-        }
-        if (!_vertices.Contains(topRight))
-        {
-            _vertices.Add(topRight);
-        }
-        if (!_vertices.Contains(bottomLeft))
-        {
-            _vertices.Add(bottomLeft);
-        }
-        if (!_vertices.Contains(bottomRight))
-        {
-            _vertices.Add(bottomRight);
-        }
-        */
-
-            // Add vertices
             _vertices.Add(topLeft); // -3
             _vertices.Add(topRight); // -2
             _vertices.Add(bottomLeft); // -1
             _vertices.Add(bottomRight); //
-
-            // Add triangles
-            // _triangles.Add(_vertices.FindIndex(a => a == bottomLeft));
-            // _triangles.Add(_vertices.FindIndex(a => a == topLeft));
-            // _triangles.Add(_vertices.FindIndex(a => a == topRight));
-            //
-            // _triangles.Add(_vertices.FindIndex(a => a == bottomLeft));
-            // _triangles.Add(_vertices.FindIndex(a => a == topRight));
-            // _triangles.Add(_vertices.FindIndex(a => a == bottomRight));
 
             // Add triangles
             var lastIndex = _vertices.Count - 1;
