@@ -3,10 +3,10 @@
 // https://www.youtube.com/channel/UCbKQHYlzpR_pa5UL7JNP3kg/
 //
 
-using MonoBehaviours;
+using MonoBehaviours.World;
 using UnityEngine;
 
-namespace Classes
+namespace Classes.World
 {
     public class Chunk
     {

@@ -3,10 +3,9 @@
 // https://www.youtube.com/channel/UCbKQHYlzpR_pa5UL7JNP3kg/
 //
 
-using System;
 using UnityEngine;
 
-namespace MonoBehaviours
+namespace MonoBehaviours.Player
 {
     public class PlayerMovement : MonoBehaviour
     {

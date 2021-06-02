@@ -4,9 +4,11 @@
 //
 
 using System;
+using Classes.World;
+using MonoBehaviours.World;
 using UnityEngine;
 
-namespace Classes
+namespace Classes.Misc
 {
     public static class TextureAtlas
     {

@@ -3,12 +3,11 @@
 // https://www.youtube.com/channel/UCbKQHYlzpR_pa5UL7JNP3kg/
 //
 
-using System;
-using Classes;
 using System.Collections.Generic;
+using Classes.World;
 using UnityEngine;
 
-namespace MonoBehaviours
+namespace MonoBehaviours.World
 {
     public class WorldGenerator : MonoBehaviour
     {

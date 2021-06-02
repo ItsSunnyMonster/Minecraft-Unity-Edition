@@ -5,7 +5,7 @@
 
 using UnityEngine;
 
-namespace Classes
+namespace Classes.Misc
 {
     public static class HelperFunctions
     {

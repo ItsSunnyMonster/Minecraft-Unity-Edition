@@ -8,21 +8,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Classes;
+using Classes.Misc;
+using Classes.World;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public enum BlockFaceOrientation
+namespace MonoBehaviours.World
 {
-    Top,
-    Left,
-    Right,
-    Bottom,
-    Front,
-    Back
-}
+    public enum BlockFaceOrientation
+    {
+        Top,
+        Left,
+        Right,
+        Bottom,
+        Front,
+        Back
+    }
 
-namespace MonoBehaviours
-{
     [RequireComponent(typeof(MeshFilter), typeof(MeshCollider))]
     public class ChunkBehaviour : MonoBehaviour
     {
