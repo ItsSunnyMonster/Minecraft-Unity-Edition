@@ -4,10 +4,8 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Classes;
 using Classes.Misc;
 using Classes.World;
 using UnityEngine;
@@ -176,6 +174,49 @@ namespace MonoBehaviours.World
             _triangles.Add(lastIndex - 1); //Bottom Left
             _triangles.Add(lastIndex - 2); // Top Right
             _triangles.Add(lastIndex); // Bottom Right
+
+            /* Shared vertices
+            if (!_vertices.Contains(topLeft))
+            {
+                _vertices.Add(topLeft);
+            }
+            if (!_vertices.Contains(topRight))
+            {
+                _vertices.Add(topRight);
+            }
+            if (!_vertices.Contains(bottomLeft))
+            {
+                _vertices.Add(bottomLeft);
+            }
+            if (!_vertices.Contains(bottomRight))
+            {
+                _vertices.Add(bottomRight);
+            }
+            
+            _triangles.Add(_vertices.IndexOf(bottomLeft));
+            _triangles.Add(_vertices.IndexOf(topLeft));
+            _triangles.Add(_vertices.IndexOf(topRight));
+            
+            _triangles.Add(_vertices.IndexOf(bottomLeft));
+            _triangles.Add(_vertices.IndexOf(topRight));
+            _triangles.Add(_vertices.IndexOf(bottomRight));
+            */
+            
+            /* Unique vertex for each triangle
+            _vertices.Add(bottomLeft);
+            _triangles.Add(_vertices.Count - 1);
+            _vertices.Add(topLeft);
+            _triangles.Add(_vertices.Count - 1);
+            _vertices.Add(topRight);
+            _triangles.Add(_vertices.Count - 1);
+            
+            _vertices.Add(bottomLeft);
+            _triangles.Add(_vertices.Count - 1);
+            _vertices.Add(topRight);
+            _triangles.Add(_vertices.Count - 1);
+            _vertices.Add(bottomRight);
+            _triangles.Add(_vertices.Count - 1);
+            */
         }
 
         /// <summary>
@@ -238,7 +279,7 @@ namespace MonoBehaviours.World
             }
 
             // Add uvs based on type and orientation
-            AddUVs(TextureAtlas.GetTextureUV(type, orientation));
+            // AddUVs(TextureAtlas.GetTextureUV(type, orientation));
         }
 
         /// <summary>
@@ -259,7 +300,7 @@ namespace MonoBehaviours.World
         private void UpdateMesh()
         {
             // Create the mesh based on mesh data
-            var mesh = new Mesh {vertices = _vertices.ToArray(), triangles = _triangles.ToArray(), uv = _uvs.ToArray()};
+            var mesh = new Mesh {vertices = _vertices.ToArray(), triangles = _triangles.ToArray()/*, uv = _uvs.ToArray()*/};
             // Recalculate normals
             mesh.RecalculateNormals();
 
