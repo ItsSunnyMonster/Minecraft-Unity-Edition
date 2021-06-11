@@ -279,7 +279,7 @@ namespace MonoBehaviours.World
             }
 
             // Add uvs based on type and orientation
-            // AddUVs(TextureAtlas.GetTextureUV(type, orientation));
+            AddUVs(TextureAtlas.GetTextureUV(type, orientation));
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace MonoBehaviours.World
         private void UpdateMesh()
         {
             // Create the mesh based on mesh data
-            var mesh = new Mesh {vertices = _vertices.ToArray(), triangles = _triangles.ToArray()/*, uv = _uvs.ToArray()*/};
+            var mesh = new Mesh {vertices = _vertices.ToArray(), triangles = _triangles.ToArray(), uv = _uvs.ToArray()};
             // Recalculate normals
             mesh.RecalculateNormals();
 

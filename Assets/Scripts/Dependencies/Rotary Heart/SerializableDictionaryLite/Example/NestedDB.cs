@@ -1,8 +1,6 @@
-﻿using RotaryHeart.Lib.SerializableDictionary;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace RotaryHeart.Lib
+namespace Dependencies.Rotary_Heart.SerializableDictionaryLite.Example
 {
     [CreateAssetMenu(fileName = "NestedDB.asset", menuName = "Nested DB")]
     public class NestedDB : ScriptableObject

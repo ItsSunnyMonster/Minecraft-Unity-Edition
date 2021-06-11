@@ -5,17 +5,17 @@
 
 using System;
 using System.Collections.Generic;
-using RotaryHeart.Lib.SerializableDictionary;
+using Dependencies.Rotary_Heart.SerializableDictionaryLite;
 using UnityEngine;
-
-public enum GameMode
-{
-    Spectator,
-    Creative
-}
 
 namespace MonoBehaviours.Player
 {
+    public enum GameMode
+    {
+        Spectator,
+        Creative
+    }
+
     public class GameModeMgr : MonoBehaviour
     {
         public GameMode currentGameMode = GameMode.Spectator;

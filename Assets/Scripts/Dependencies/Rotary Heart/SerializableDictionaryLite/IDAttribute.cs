@@ -1,4 +1,4 @@
-﻿namespace RotaryHeart.Lib.SerializableDictionary
+﻿namespace Dependencies.Rotary_Heart.SerializableDictionaryLite
 {
     [System.AttributeUsage(System.AttributeTargets.Field)]
     public class IDAttribute : System.Attribute

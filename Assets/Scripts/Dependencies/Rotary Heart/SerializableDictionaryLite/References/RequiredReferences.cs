@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RotaryHeart.Lib.SerializableDictionary
+namespace Dependencies.Rotary_Heart.SerializableDictionaryLite.References
 {
     /// <summary>
     /// This class is used so that the dictionary keys can have a default value, unity editor will give the default value, because it can't be null.
