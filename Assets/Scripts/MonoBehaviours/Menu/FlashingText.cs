@@ -13,7 +13,7 @@ namespace MonoBehaviours.Menu
     public class FlashingText : MonoBehaviour
     {
         public TextMeshProUGUI flashingText;
-        
+
         public List<string> flashTexts = new List<string>();
 
         private void Start()
