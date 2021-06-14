@@ -4,13 +4,15 @@
 //
 
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MonoBehaviours.Menu
 {
     public class Panorama : MonoBehaviour
     {
         [Header("References")]
-        public Material unlit;
+        [FormerlySerializedAs("unlit")] 
+        public Material baseMaterial;
         [Space]
         [Header("Textures")] 
         public Texture2D panoramaLeft;
@@ -30,12 +32,27 @@ namespace MonoBehaviours.Menu
 
         private void Awake()
         {
-            quadLeft.sharedMaterial = new Material(unlit) {mainTexture = panoramaLeft};
-            quadRight.sharedMaterial = new Material(unlit) {mainTexture = panoramaRight};
-            quadFront.sharedMaterial = new Material(unlit) {mainTexture = panoramaFront};
-            quadBack.sharedMaterial = new Material(unlit) {mainTexture = panoramaBack};
-            quadTop.sharedMaterial = new Material(unlit) {mainTexture = panoramaTop};
-            quadBottom.sharedMaterial = new Material(unlit) {mainTexture = panoramaBottom};
+            SetTextures();
+        }
+
+        public void SetTextures()
+        {
+            quadLeft.sharedMaterial = new Material(baseMaterial) {mainTexture = panoramaLeft};
+            quadRight.sharedMaterial = new Material(baseMaterial) {mainTexture = panoramaRight};
+            quadFront.sharedMaterial = new Material(baseMaterial) {mainTexture = panoramaFront};
+            quadBack.sharedMaterial = new Material(baseMaterial) {mainTexture = panoramaBack};
+            quadTop.sharedMaterial = new Material(baseMaterial) {mainTexture = panoramaTop};
+            quadBottom.sharedMaterial = new Material(baseMaterial) {mainTexture = panoramaBottom};
+        }
+
+        public void ResetTextures()
+        {
+            quadLeft.sharedMaterial = baseMaterial;
+            quadRight.sharedMaterial = baseMaterial;
+            quadFront.sharedMaterial = baseMaterial;
+            quadBack.sharedMaterial = baseMaterial;
+            quadTop.sharedMaterial = baseMaterial;
+            quadBottom.sharedMaterial = baseMaterial;
         }
     }
 }
