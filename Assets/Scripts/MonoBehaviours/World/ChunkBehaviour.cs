@@ -240,7 +240,7 @@ namespace MonoBehaviours.World
                     break;
                 case BlockFaceOrientation.Bottom:
                     AddFace(
-                        blockPosition + new Vector3(-0.5f, -.5f, 0.5f),
+                        blockPosition + new Vector3(-0.5f, -0.5f, 0.5f),
                         blockPosition + new Vector3(-0.5f, -0.5f, -0.5f),
                         blockPosition + new Vector3(0.5f, -0.5f, 0.5f),
                         blockPosition + new Vector3(0.5f, -0.5f, -0.5f));
@@ -249,7 +249,7 @@ namespace MonoBehaviours.World
                     AddFace(
                         blockPosition + new Vector3(-0.5f, 0.5f, 0.5f),
                         blockPosition + new Vector3(-0.5f, 0.5f, -0.5f),
-                        blockPosition + new Vector3(-0.5f, -.5f, 0.5f),
+                        blockPosition + new Vector3(-0.5f, -0.5f, 0.5f),
                         blockPosition + new Vector3(-0.5f, -0.5f, -0.5f));
                     break;
                 case BlockFaceOrientation.Front:
@@ -264,7 +264,7 @@ namespace MonoBehaviours.World
                         blockPosition + new Vector3(0.5f, 0.5f, 0.5f),
                         blockPosition + new Vector3(-0.5f, 0.5f, 0.5f),
                         blockPosition + new Vector3(0.5f, -0.5f, 0.5f),
-                        blockPosition + new Vector3(-0.5f, -.5f, 0.5f));
+                        blockPosition + new Vector3(-0.5f, -0.5f, 0.5f));
                     break;
                 case BlockFaceOrientation.Right:
                     AddFace(
