@@ -166,7 +166,15 @@ namespace MonoBehaviours.World
 
             // Add triangles
             var lastIndex = _vertices.Count - 1;
-
+            
+            /*
+             *           * * * * *
+             *           * *     *
+             *           *   *   *
+             *           *     * *
+             *           * * * * *
+             */
+            
             _triangles.Add(lastIndex - 1); // Bottom Left
             _triangles.Add(lastIndex - 3); // Top Left
             _triangles.Add(lastIndex - 2); // Top Right
@@ -174,6 +182,32 @@ namespace MonoBehaviours.World
             _triangles.Add(lastIndex - 1); //Bottom Left
             _triangles.Add(lastIndex - 2); // Top Right
             _triangles.Add(lastIndex); // Bottom Right
+
+            /*
+            if (overlapTopVert)
+            {
+                _triangles.Add(lastIndex - 3); // Top Left
+                _triangles.Add(lastIndex - 2); // Top Right
+                _triangles.Add(lastIndex - 3); // Top Left
+            }
+            if (overlapBottomVert)
+            {
+                _triangles.Add(lastIndex - 1); // Bottom Left
+                _triangles.Add(lastIndex); // Bottom Right
+                _triangles.Add(lastIndex - 1); // Bottom Left
+            }
+            if (overlapLeftVert)
+            {
+                _triangles.Add(lastIndex - 3); // Top Left
+                _triangles.Add(lastIndex - 1); // Bottom Left
+                _triangles.Add(lastIndex - 3); // Top Left
+            }
+            if (overlapRightVert)
+            {
+                _triangles.Add(lastIndex - 2); // Top Right
+                _triangles.Add(lastIndex); // Bottom Right
+                _triangles.Add(lastIndex - 2); // Top Right
+            }*/
 
             /* Shared vertices
             if (!_vertices.Contains(topLeft))

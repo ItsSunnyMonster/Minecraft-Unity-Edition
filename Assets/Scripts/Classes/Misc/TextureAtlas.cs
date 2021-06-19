@@ -12,7 +12,7 @@ namespace Classes.Misc
 {
     public static class TextureAtlas
     {
-        public const float TileFraction = 1f / 4; // The fraction of the side length each texture takes up
+        public const float TILE_FRACTION = 1f / 16; // The fraction of the side length each texture takes up
 
         /// <summary>
         /// Gets the Texture UV coordinates of a block
@@ -68,26 +68,22 @@ namespace Classes.Misc
                     }
                     break;
 
-                case BlockType.Lava:
-                    tileX = 2;
-                    tileY = 3;
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
 
             // Get the uv values
-            var topLeft = new Vector2(tileX - 1, tileY) * TileFraction;
-            var topRight = new Vector2(tileX, tileY) * TileFraction;
-            var bottomLeft = new Vector2(tileX - 1, tileY - 1) * TileFraction;
-            var bottomRight = new Vector2(tileX, tileY - 1) * TileFraction;
+            var topLeft = new Vector2((tileX - 1) * TILE_FRACTION + 0.001f, tileY * TILE_FRACTION - 0.001f);
+            var topRight = new Vector2(tileX * TILE_FRACTION - 0.001f, tileY * TILE_FRACTION - 0.001f);
+            var bottomLeft = new Vector2((tileX - 1) * TILE_FRACTION + 0.001f, (tileY - 1) * TILE_FRACTION + 0.001f);
+            var bottomRight = new Vector2(tileX * TILE_FRACTION - 0.001f, (tileY - 1) * TILE_FRACTION + 0.001f);
 
             // Return the uv values as TextureUV struct
             return new TextureUV(topLeft, topRight, bottomLeft, bottomRight);
         }
     }
 
-    public struct TextureUV
+    public class TextureUV
     {
         public Vector2 TopLeft;
         public Vector2 TopRight;
