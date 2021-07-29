@@ -8,21 +8,18 @@ using TMPro;
 using UnityEngine;  
 using Random = System.Random;
 
-namespace MonoBehaviours.Menu
+public class FlashingText : MonoBehaviour
 {
-    public class FlashingText : MonoBehaviour
+    public TextMeshProUGUI flashingText;
+
+    public List<string> flashTexts = new List<string>();
+
+    private void Start()
     {
-        public TextMeshProUGUI flashingText;
-
-        public List<string> flashTexts = new List<string>();
-
-        private void Start()
+        var random = new Random();
+        if (flashTexts.Count > 0)
         {
-            var random = new Random();
-            if (flashTexts.Count > 0)
-            {
-                flashingText.text = flashTexts[random.Next(0, flashTexts.Count)];
-            }
+            flashingText.text = flashTexts[random.Next(0, flashTexts.Count)];
         }
     }
 }

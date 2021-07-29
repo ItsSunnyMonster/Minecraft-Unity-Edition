@@ -5,24 +5,21 @@
 
 using UnityEngine;
 
-namespace Classes.World
+public enum BlockType
 {
-    public enum BlockType
-    {
-        Bedrock,
-        Stone,
-        Dirt,
-        GrassBlock,
-        Lava
-    }
+    Bedrock,
+    Stone,
+    Dirt,
+    GrassBlock,
+    Lava
+}
 
-    public class Block
-    {
-        public BlockType type;
+public class Block
+{
+    public BlockType type;
 
-        public Block(BlockType type = default)
-        {
-            this.type = type;
-        }
+    public Block(BlockType type = default)
+    {
+        this.type = type;
     }
 }
