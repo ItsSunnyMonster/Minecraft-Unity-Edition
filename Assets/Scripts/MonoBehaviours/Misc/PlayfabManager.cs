@@ -26,6 +26,7 @@ public class PlayfabManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         _logFile = new LogFile("PlayFab");
@@ -43,7 +44,7 @@ public class PlayfabManager : MonoBehaviour
         };
         PlayFabClientAPI.LoginWithCustomID(request, _ =>
         {
-            _logFile.AddLog(LogMode.Success, "Login Successful! ", false);
+            _logFile.AddLog(LogMode.Success, "Login Successful! ");
             LoggedIn = true;
         }, OnError);
     }
@@ -65,7 +66,7 @@ public class PlayfabManager : MonoBehaviour
                 _logFile.AddLog(LogMode.Error, "\"" + dataName + "\" is not found in title data! ", false);
                 throw new ArgumentOutOfRangeException(nameof(dataName), "\"" + dataName + "\" is not found in title data! ");
             }
-            _logFile.AddLog(LogMode.Success, "Get title data \"" + dataName + "\" successful! ", false);
+            _logFile.AddLog(LogMode.Success, "Get title data \"" + dataName + "\" successful! ");
             callback(result.Data[dataName]);
         }, OnError);
     }
