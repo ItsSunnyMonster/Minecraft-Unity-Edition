@@ -2737,6 +2737,7 @@ MonoBehaviour:
   - Um....
   - 'This logo looks amazing, doesn''t it? '
   - Made by SunnyMonster!
+  - 'Made in Unity! '
 --- !u!21 &1123668479
 Material:
   serializedVersion: 6
@@ -4474,8 +4475,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 1944110517}
     m_Modifications:
     - target: {fileID: 2734692104610250361, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
+      propertyPath: m_text
+      value: Some very very very very long text
+      objectReference: {fileID: 0}
+    - target: {fileID: 2734692104610250361, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_fontSize
-      value: 25
+      value: 18.35
       objectReference: {fileID: 0}
     - target: {fileID: 2734692104610250361, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_fontColor.b
@@ -4492,6 +4497,10 @@ PrefabInstance:
     - target: {fileID: 2734692104610250361, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_fontSizeBase
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2734692104610250361, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2734692104610250361, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -4535,11 +4544,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 345.9953
+      value: 266.187
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 86.6514
+      value: 52.5253
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4555,7 +4564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.9887382
+      value: 0.9828249
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4567,15 +4576,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.14965558
+      value: 0.18454045
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 173
+      value: 174
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 117.64
+      value: 122
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4587,7 +4596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6865224987315113264, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -17.214
+      value: 21.269
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6208b6570ba80d4f8ab89dc31641a01, type: 3}
