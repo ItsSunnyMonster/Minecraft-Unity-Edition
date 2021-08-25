@@ -10,6 +10,10 @@ public class Chunk
     public readonly GameObject ChunkGameObject;
     public readonly Vector2 Coordinate;
     
+    /// <summary>
+    /// Creates a new chunk at coordinate (not position) <paramref name="coordinate"/>
+    /// </summary>
+    /// <param name="coordinate">The coordinate of the chunk</param>
     public Chunk(Vector2 coordinate)
     {
         // Spawn chunk

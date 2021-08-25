@@ -8,8 +8,7 @@ using UnityEngine.Serialization;
 
 public class Panorama : MonoBehaviour
 {
-    [Header("References")]
-    [FormerlySerializedAs("unlit")] 
+    [Header("References")] 
     public Material baseMaterial;
     [Space]
     [Header("Textures")] 

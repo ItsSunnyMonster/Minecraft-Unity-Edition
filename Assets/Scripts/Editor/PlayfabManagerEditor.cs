@@ -25,9 +25,15 @@ public class PlayfabManagerEditor : Editor
                     file.Delete();
                 }
             }
+            Debug.Log("Log files deleted! ");
         }
         if (GUILayout.Button("Open Log Directory"))
         {
+#if UNITY_EDITOR_WIN
+            Debug.Log("Opening Explorer...");
+#elif UNITY_EDITOR_OSX
+            Debug.Log("Opening Finder...");
+#endif
             EditorUtility.RevealInFinder(Application.persistentDataPath + "/Logs/PlayFab/");
         }
         GUILayout.EndHorizontal();

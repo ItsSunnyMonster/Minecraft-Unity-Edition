@@ -19,6 +19,7 @@ public class FlashingText : MonoBehaviour
         var random = new Random();
         if (flashTexts.Count > 0)
         {
+            // Set random text
             flashingText.text = flashTexts[random.Next(0, flashTexts.Count)];
         }
     }

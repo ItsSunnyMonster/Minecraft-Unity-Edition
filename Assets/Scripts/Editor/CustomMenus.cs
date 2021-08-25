@@ -6,6 +6,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = System.Diagnostics.Debug;
 
 public static class CustomMenus
 {
@@ -13,48 +14,66 @@ public static class CustomMenus
     private static void CreateButton()
     {
         GameObject button = null;
+        // If nothing is selected
         if (Selection.activeTransform == null)
         {
+            // Find a canvas object
             var canvas = Object.FindObjectOfType<Canvas>();
+            // If no canvas in the scene
             if (canvas == null)
             {
+                // Create a new canvas
                 var canvasGameObject = new GameObject("Canvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
                 canvas = canvasGameObject.GetComponent<Canvas>();
                 canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             }
+            // Spawn the button which is parented to the canvas
             button = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/Button.prefab"), canvas.transform);
         }
+        // If something is selected
         else
         {
+            // Get the selected transform
             var selection = Selection.activeTransform;
-            if (selection.TryGetComponent<Canvas>(out var _) || selection.GetComponentInParent<Canvas>() != null)
+            // If the selected object has component canvas or if its parents and grand parents has component canvas
+            if (selection.TryGetComponent<Canvas>(out _) || selection.GetComponentInParent<Canvas>() != null)
             {
+                // Spawn the button which is parented to the selection
                 button = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/Button.prefab"), selection);
             }
+            // If the selection doesn't have canvas or its parents doesn't have canvas
             else
             {
                 Canvas canvas = null;
+                // Check all the children
                 for (var i = 0; i < selection.childCount; i++)
                 {
+                    // If canvas not found then continue searching
                     canvas = selection.GetChild(i).GetComponent<Canvas>();
-                    if (canvas != null)
-                    {
-                        button = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/Button.prefab"), canvas.transform);
-                        break;
-                    }
+                    if (canvas == null) continue;
+                    // If canvas does get found then spawn button parented to the children
+                    button = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/Button.prefab"), canvas.transform);
+                    // Stop searching
+                    break;
                 }
+                // If no children has canvas
                 if (canvas == null) 
                 {
+                    // Create a new canvas and parent it to the selection
                     var canvasObject = new GameObject("Canvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
                     canvasObject.transform.SetParent(selection);
                     canvas = canvasObject.GetComponent<Canvas>();
+                    // Spawn button parented to the canvas
                     button = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/Button.prefab"), canvas.transform);
                 }
             }
         }
 
+        Debug.Assert(button != null, nameof(button) + " != null");
+        // Rename button
         button.name = "Button";
 
+        // Select the newly created button
         Selection.activeGameObject = button;
 
 
@@ -71,6 +90,7 @@ public static class CustomMenus
     }
 
     [MenuItem("GameObject/UI/Minecraft/Text")]
+    // Same thing as CreateButton
     private static void CreateText()
     {
         GameObject text = null;
@@ -98,11 +118,9 @@ public static class CustomMenus
                 for (var i = 0; i < selection.childCount; i++)
                 {
                     canvas = selection.GetChild(i).GetComponent<Canvas>();
-                    if (canvas != null)
-                    {
-                        text = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/Text.prefab"), canvas.transform);
-                        break;
-                    }
+                    if (canvas == null) continue;
+                    text = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/Text.prefab"), canvas.transform);
+                    break;
                 }
                 if (canvas == null)
                 {
@@ -114,6 +132,7 @@ public static class CustomMenus
             }
         }
 
+        Debug.Assert(text != null, nameof(text) + " != null");
         text.name = "Text";
 
         Selection.activeGameObject = text;

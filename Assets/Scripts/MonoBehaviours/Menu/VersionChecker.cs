@@ -63,6 +63,9 @@ public class VersionChecker : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Adds the latest version to the ignored update list
+    /// </summary>
     public void IgnoreUpdate()
     {
         _ignoredVersions.Add(_latestVersion);

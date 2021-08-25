@@ -9,20 +9,18 @@ public class PauseMenu : MonoBehaviour
 {
     public CanvasGroup pauseMenu;
 
-    private bool isPaused_;
+    private bool _isPaused = false;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        if (_isPaused)
         {
-            if (isPaused_)
-            {
-                Unpause();
-            }
-            else
-            {
-                Pause();
-            }
+            Unpause();
+        }
+        else
+        {
+            Pause();
         }
     }
 
@@ -33,6 +31,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         pauseMenu.blocksRaycasts = true;
         pauseMenu.interactable = true;
+        _isPaused = true;
     }
 
     public void Unpause()
@@ -42,6 +41,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         pauseMenu.blocksRaycasts = false;
         pauseMenu.interactable = false;
+        _isPaused = false;
     }
 
     public void Quit()

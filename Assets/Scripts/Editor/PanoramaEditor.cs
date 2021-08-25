@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Panorama))]
-public class PanoramaEditor : UnityEditor.Editor
+public class PanoramaEditor : Editor
 {
     public override void OnInspectorGUI()
     {

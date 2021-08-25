@@ -16,7 +16,7 @@ public static class TextureAtlas
     /// <param name="type">Block type</param>
     /// <param name="orientation">Orientation of the block</param>
     /// <returns>TextureUV struct containing information about the UVs. </returns>
-    /// <exception cref="ArgumentOutOfRangeException">Not actually going to be called unless one block type or orientation is not handled in this method. </exception>
+    /// <exception cref="ArgumentOutOfRangeException">type or orientation not handled in this method! </exception>
     public static TextureUV GetTextureUV(BlockType type, BlockFaceOrientation orientation)
     {
         // Create variables for tile x and tile y
@@ -29,17 +29,17 @@ public static class TextureAtlas
                 tileX = 1;
                 tileY = 1;
                 break;
-        
+
             case BlockType.Stone:
                 tileX = 2;
                 tileY = 1;
                 break;
-        
+
             case BlockType.Dirt:
                 tileX = 1;
                 tileY = 2;
                 break;
-        
+
             case BlockType.GrassBlock:
                 // Switch the orientation for textures
                 switch (orientation)
@@ -62,6 +62,7 @@ public static class TextureAtlas
                     default:
                         throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);
                 }
+
                 break;
 
             default:
@@ -93,7 +94,8 @@ public class TextureUV
     /// <param name="topRight">The top right UV value of the block face</param>
     /// <param name="bottomLeft">The bottom left UV value of the block face</param>
     /// <param name="bottomRight">The bottom right UV value of the block face</param>
-    public TextureUV(Vector2 topLeft = default, Vector2 topRight = default, Vector2 bottomLeft = default, Vector2 bottomRight = default)
+    public TextureUV(Vector2 topLeft = default, Vector2 topRight = default, Vector2 bottomLeft = default,
+        Vector2 bottomRight = default)
     {
         TopLeft = topLeft;
         TopRight = topRight;

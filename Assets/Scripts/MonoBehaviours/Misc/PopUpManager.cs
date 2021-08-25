@@ -118,16 +118,32 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds a new popup to the queue
+    /// </summary>
+    /// <param name="title">(optional) Title of the popup</param>
+    /// <param name="content">(optional) Content of the popup</param>
+    /// <param name="icon">(optional) The icon displayed with the popup</param>
     public void PopUp(string title = "", string content = "", Sprite icon = null)
     {
         PopUp(new PopUp(title, content, icon));
     }
 
+    /// <summary>
+    /// Adds a new popup to the queue
+    /// </summary>
+    /// <param name="title">(optional) Title of the popup</param>
+    /// <param name="content">(optional) Content of the popup</param>
+    /// <param name="iconID">The icon displayed with the popup</param>
     public void PopUp(string iconID, string title = "", string content = "")
     {
         PopUp(title, content, iconPresets[iconID]);
     }
-
+    
+    /// <summary>
+    /// Adds a new popup to the queue
+    /// </summary>
+    /// <param name="popUp">The popup</param>
     public void PopUp(PopUp popUp)
     {
         _popUpQueue.Enqueue(popUp);
@@ -143,13 +159,25 @@ public struct PopUp
     public readonly string Content;
     public readonly Sprite Icon;
 
+    /// <summary>
+    /// Creates a new popup
+    /// </summary>
+    /// <param name="title">Title of the popup</param>
+    /// <param name="content">Content of the popup</param>
+    /// <param name="icon">Icon of the popup</param>
     public PopUp(string title = "", string content = "", Sprite icon = null)
     {
         Title = title;
         Content = content;
         Icon = icon;
     }
-
+    
+    /// <summary>
+    /// Creates a new popup
+    /// </summary>
+    /// <param name="title">Title of the popup</param>
+    /// <param name="content">(optional) Content of the popup</param>
+    /// <param name="iconID">The icon displayed with the popup</param>
     public PopUp(string iconID, string title = "", string content = "")
     {
         Title = title;
