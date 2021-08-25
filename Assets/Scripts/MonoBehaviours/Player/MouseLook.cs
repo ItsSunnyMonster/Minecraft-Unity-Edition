@@ -3,6 +3,7 @@
 // https://www.youtube.com/channel/UCbKQHYlzpR_pa5UL7JNP3kg/
 //
 
+using System;
 using UnityEngine;
 
 public class MouseLook : MonoBehaviour
@@ -31,5 +32,11 @@ public class MouseLook : MonoBehaviour
         // Rotate according to the input
         transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position, transform.forward * 2);
     }
 }
