@@ -1200,7 +1200,7 @@ MonoBehaviour:
     m_Bits: 64
   speed: 10
   groundDistance: 0.4
-  gravity: -29.43
+  gravity: -25
   jumpHeight: 1.3
 --- !u!23 &1908949447
 MeshRenderer:
@@ -1258,8 +1258,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908949445}
-  m_LocalRotation: {x: 0, y: -0.7184569, z: 0, w: 0.69557154}
-  m_LocalPosition: {x: 197.06364, y: 64.579994, z: 728.96387}
+  m_LocalRotation: {x: 0, y: -0.88638586, z: 0, w: -0.46294728}
+  m_LocalPosition: {x: -69.36891, y: 69.579994, z: 936.92804}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2037333630}
@@ -1298,7 +1298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  scrollWheelSensitivity: 5
+  scrollWheelSensitivity: 1
 --- !u!114 &1908949452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b7ad2b5ab8338345bcd77d376a03676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 225
+  mouseSensitivity: 250
   playerBody: {fileID: 1908949449}
 --- !u!114 &2037333632
 MonoBehaviour:
