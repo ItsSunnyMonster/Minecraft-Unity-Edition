@@ -4,6 +4,8 @@
 //
 
 using System;
+using System.Collections.Generic;
+using Dependencies.Rotary_Heart.SerializableDictionaryLite;
 using UnityEngine;
 
 public enum GameMode
@@ -15,9 +17,9 @@ public enum GameMode
 public class GameModeMgr : MonoBehaviour
 {
     public GameMode currentGameMode = GameMode.Spectator;
-    public event Action<GameMode> OnSwitchGameMode;
-    
     private GameMode _previousGameMode = GameMode.Creative;
+
+    public GameModeComponentDictionary gameModeComponents = new GameModeComponentDictionary();
 
     /// <summary>
     /// Switch the game mode to <paramref name="mode"/>
@@ -27,14 +29,24 @@ public class GameModeMgr : MonoBehaviour
     {
         // It mode didn't change then do nothing
         if (mode == currentGameMode) return;
+        
+        // Loop through all the components and disabling them
+        foreach (var behaviour in gameModeComponents[currentGameMode].componentList)
+        {
+            behaviour.enabled = false;
+        }
+        
+        // Loop through all the components that should be enabled and enabling them
+        foreach (var behaviour in gameModeComponents[mode].componentList)
+        {
+            behaviour.enabled = true;
+        }
 
         // Keep track of previous game mode
         _previousGameMode = currentGameMode;
         
         // Set the current game mode to the mode switched to
         currentGameMode = mode;
-        
-        OnSwitchGameMode?.Invoke(mode);
     }
 
     private void Update()
@@ -43,5 +55,20 @@ public class GameModeMgr : MonoBehaviour
         {
             Switch(_previousGameMode);
         }
+    }
+
+    /// <summary>
+    /// The serializable dictionary
+    /// </summary>
+    [Serializable]
+    public class GameModeComponentDictionary : SerializableDictionaryBase<GameMode, ComponentList> {}
+
+    /// <summary>
+    /// The wrapper for List
+    /// </summary>
+    [Serializable]
+    public struct ComponentList
+    {
+        public List<MonoBehaviour> componentList;
     }
 }
