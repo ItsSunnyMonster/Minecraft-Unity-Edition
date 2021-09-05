@@ -41,8 +41,13 @@ public class VersionChecker : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => PlayfabManager.LoggedIn);
+        if (Application.version.Contains("internal"))
+        {
+            yield break;
+        }
         
+        yield return new WaitUntil(() => PlayfabManager.LoggedIn);
+
         PlayfabManager.Instance.GetTitleData("Latest Version", data =>
         {
             // Checks

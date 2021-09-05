@@ -8,22 +8,18 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
-    public Transform groundCheck;
-    public LayerMask groundMask;
 
     private Vector3 _yVelocity;
 
-    public float speed = 12f;
-    public float groundDistance = 0.4f;
-    public float gravity = -19.62f;
-    public float jumpHeight = 3f;
+    public float speed = 4.317f;
+    public float sprintSpeed = 5.612f;
+    public float gravity = -31.36f;
+    public float jumpHeight = 1.25f;
 
     private bool _isGrounded;
 
     private void Update()
     {
-        // Do ground check
-        _isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (_isGrounded && _yVelocity.y < 0)
         {
             _yVelocity.y = -2f;
@@ -35,10 +31,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Move the player based on input
         var move = transform.right * x + transform.forward * z;
-        controller.Move(move * (speed * Time.deltaTime));
+
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        {
+            controller.Move(move * sprintSpeed * Time.deltaTime);
+        }
+        else
+        {
+            controller.Move(move * speed * Time.deltaTime);
+        }
 
         // Check for jumping input and jump if button down
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        if (Input.GetButton("Jump") && _isGrounded)
         {
             _yVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
@@ -46,12 +50,7 @@ public class PlayerMovement : MonoBehaviour
         // Move the player based on gravity
         _yVelocity.y += gravity * Time.deltaTime;
         controller.Move(_yVelocity * Time.deltaTime);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        // Draw ground check gizmos
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
+        
+        _isGrounded = controller.isGrounded;
     }
 }
