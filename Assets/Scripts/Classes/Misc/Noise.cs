@@ -14,7 +14,7 @@ public static class Noise
     /// </summary>
     /// <param name="point">The sample point</param>
     /// <returns><para>Value between 0.0 and 1.0</para></returns>
-    public static float PerlinNoise3D(Vector3 point)
+    private static float PerlinNoise3D(Vector3 point)
     {
         // Return another overload of the function
         return PerlinNoise3D(point.x, point.y, point.z);
@@ -27,7 +27,7 @@ public static class Noise
     /// <param name="y">The Y-coordinate of the sample point. </param>
     /// <param name="z">The Z-coordinate of the sample point. </param>
     /// <returns><para>Value between 0.0 and 1.0</para></returns>
-    public static float PerlinNoise3D(float x, float y, float z)
+    private static float PerlinNoise3D(float x, float y, float z)
     {
         // Get all three permutations of noise for x, y, z
         var ab = Mathf.PerlinNoise(x, y);
