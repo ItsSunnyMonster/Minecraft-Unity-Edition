@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Minecraft Unity Edition"
-#define MyAppVersion "v1.1-indev"
+#define MyAppVersion "v1.1a-indev_internal_magermigiegim"
 #define MyAppPublisher "SunnyMonster Production"
 #define MyAppExeName "Minecraft Unity Edition.exe" 
 #define MyAppPath "D:\projects\Unity Games\Minecraft Unity Edition\Builds\" + MyAppVersion + "\Windows\x86_64"

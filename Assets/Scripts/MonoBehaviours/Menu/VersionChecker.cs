@@ -41,7 +41,7 @@ public class VersionChecker : MonoBehaviour
 
     private IEnumerator Start()
     {
-        if (Application.version.Contains("internal"))
+        if (Application.version.Contains("_internal") || Application.version.Contains("_dev"))
         {
             yield break;
         }
