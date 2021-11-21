@@ -3,72 +3,69 @@
 // https://www.youtube.com/channel/UCbKQHYlzpR_pa5UL7JNP3kg/
 //
 
-using System;
-using System.Collections.Generic;
-using Dependencies.Rotary_Heart.SerializableDictionaryLite;
 using UnityEngine;
-
-public enum GameMode
-{
-    Spectator,
-    Creative
-}
+using System;
 
 public class GameModeMgr : MonoBehaviour
 {
-    public GameMode currentGameMode = GameMode.Spectator;
-    private GameMode _previousGameMode = GameMode.Creative;
+    private static GameModeMgr Instance;
 
-    public GameModeComponentDictionary gameModeComponents = new GameModeComponentDictionary();
-
-    /// <summary>
-    /// Switch the game mode to <paramref name="mode"/>
-    /// </summary>
-    /// <param name="mode">The game mode to switch to</param>
-    public void Switch(GameMode mode)
+    public static GameMode CurrentGameMode
     {
-        // It mode didn't change then do nothing
-        if (mode == currentGameMode) return;
-        
-        // Loop through all the components and disabling them
-        foreach (var behaviour in gameModeComponents[currentGameMode].componentList)
+        get
         {
-            behaviour.enabled = false;
+            return Instance.currentGameMode_intern;
         }
-        
-        // Loop through all the components that should be enabled and enabling them
-        foreach (var behaviour in gameModeComponents[mode].componentList)
+        set
         {
-            behaviour.enabled = true;
-        }
-
-        // Keep track of previous game mode
-        _previousGameMode = currentGameMode;
-        
-        // Set the current game mode to the mode switched to
-        currentGameMode = mode;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.F3) && Input.GetKeyDown(KeyCode.N))
-        {
-            Switch(_previousGameMode);
+            Instance.OnGameModeSwitch_intern?.Invoke(CurrentGameMode, value);
+            Instance.currentGameMode_intern = value;
         }
     }
+    private GameMode currentGameMode_intern;
 
-    /// <summary>
-    /// The serializable dictionary
-    /// </summary>
-    [Serializable]
-    public class GameModeComponentDictionary : SerializableDictionaryBase<GameMode, ComponentList> {}
-
-    /// <summary>
-    /// The wrapper for List
-    /// </summary>
-    [Serializable]
-    public struct ComponentList
+    public static event Action<GameMode, GameMode> OnGameModeSwitch
     {
-        public List<MonoBehaviour> componentList;
+        add
+        {
+            Instance.OnGameModeSwitch_intern += value;
+        }
+        remove
+        {
+            Instance.OnGameModeSwitch_intern -= value;
+        }
+    }
+    private event Action<GameMode, GameMode> OnGameModeSwitch_intern;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogWarning("There are more than one instances of GameModeMgr in the scene! ");
+        }
+        else
+        {
+            Instance = this;
+        }
+        currentGameMode_intern = GameMode.CREATIVE;
+    }
+
+    public static void SwitchGameMode(GameMode gameMode)
+    {
+        Instance.SwitchGameMode_impl(gameMode);
+    }
+    private void SwitchGameMode_impl(GameMode gameMode)
+    {
+        CurrentGameMode = gameMode;
+    }
+
+    public static bool InstanceCreated()
+    {
+        return Instance != null;
+    }
+
+    public enum GameMode
+    {
+        SPECTATOR, CREATIVE
     }
 }

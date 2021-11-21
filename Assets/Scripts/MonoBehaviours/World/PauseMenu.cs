@@ -3,13 +3,28 @@
 //
 
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PauseMenu : MonoBehaviour
 {
-    public CanvasGroup pauseMenu;
+    [SerializeField] private CanvasGroup pauseMenu;
+    [SerializeField] private UnityEvent m_OnPause;
+    [SerializeField] private UnityEvent m_OnUnpause;
+
+    public event Action OnPause;
+    public event Action OnUnpause;
 
     private bool _isPaused = false;
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus)
+        {
+            Pause();
+        }
+    }
 
     private void Update()
     {
@@ -24,7 +39,7 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    private void Pause()
+    public void Pause()
     {
         pauseMenu.gameObject.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
@@ -32,6 +47,8 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.blocksRaycasts = true;
         pauseMenu.interactable = true;
         _isPaused = true;
+        OnPause?.Invoke();
+        m_OnPause?.Invoke();
     }
 
     public void Unpause()
@@ -42,6 +59,8 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.blocksRaycasts = false;
         pauseMenu.interactable = false;
         _isPaused = false;
+        OnUnpause?.Invoke();
+        m_OnUnpause?.Invoke();
     }
 
     public void Quit()
