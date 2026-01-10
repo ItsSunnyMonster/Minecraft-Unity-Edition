@@ -1,2 +1,3 @@
-Assets/TextMesh[[:space:]]Pro/** linguist-vendored
-Assets/PlayFab*/**               linguist-vendored
+Assets/TextMesh[[:space:]]Pro/**  linguist-vendored
+Assets/PlayFabSDK/**              linguist-vendored
+Assets/PlayFabEditorExtensions/** linguist-vendored
